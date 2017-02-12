@@ -142,11 +142,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="matrix1.txt" />
-    <Text Include="matrix2.txt" />
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="csvfile.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

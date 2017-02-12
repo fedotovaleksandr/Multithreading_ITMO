@@ -16,11 +16,12 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
-    <Text Include="matrix2.txt" />
-    <Text Include="matrix1.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="csvfile.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
