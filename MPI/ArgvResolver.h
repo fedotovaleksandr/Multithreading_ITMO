@@ -6,15 +6,19 @@ using namespace std;
 class ArgvResolver
 {
 public:
-	ArgvResolver();
-	shared_ptr<map<int, string>> arguments;
-	shared_ptr<map<string, string>> options;
-	ArgvResolver addArgument(const int position, const string default) const;
-	string getArgument();
-	ArgvResolver* resolveArgs(char* []);
-	ArgvResolver& addOption();
-	void fill(int &plain_data, const size_t size) const;
-
+	ArgvResolver(const int argc, char* argv[]);
+	ArgvResolver(){};
+	string path;
+	map<string, string> arguments;
+	int argc;
+	char** argv;
+	int getArgc();
+	char** getArgv();
+	ArgvResolver addArgument(const string arg, const string default);
+	string getArgument(const string arg);
+	string printArgRow();
+	ArgvResolver resolveArgs(const int argc, char* argv[]);
+	ArgvResolver resolveArgs();
 	~ArgvResolver();
 };
 

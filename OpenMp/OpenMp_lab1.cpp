@@ -298,13 +298,12 @@ public:
 };
 int main(int argc, char * argv[])
 {
-	vector<inputParam> strvector;
-	string path = "C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\";
-	strvector.push_back(inputParam("C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\matrix1.txt", "C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\matrix2.txt", "-gen", "100", "100"));
-	strvector.push_back(inputParam("C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\matrix1.txt", "C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\matrix2.txt", "-gen", "2", "200"));
-	strvector.push_back(inputParam("C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\matrix1.txt", "C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\matrix2.txt", "-gen", "200", "51"));
+	vector<inputParam> strvector;	
+	strvector.push_back(inputParam("C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\Release\\matrix1.txt", "C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\Release\\matrix2.txt", "-gen", "100", "100"));
+	strvector.push_back(inputParam("C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\Release\\matrix1.txt", "C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\Release\\matrix2.txt", "-gen", "2", "200"));
+	strvector.push_back(inputParam("C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\Release\\matrix1.txt", "C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\Release\\matrix2.txt", "-gen", "200", "51"));
 
-	csvfile csv("C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\labResult.csv");
+	csvfile csv("C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\Release\\labResult.csv");
 
 	for each (auto cArgv in strvector)
 	{
