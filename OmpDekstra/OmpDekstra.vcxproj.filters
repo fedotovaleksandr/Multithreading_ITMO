@@ -24,16 +24,19 @@
     <ClInclude Include="targetver.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="Tester.h">
+    <ClInclude Include="omp_tester.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="SpecVector.h">
+    <ClInclude Include="matrix.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="random.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="ArgvResolver.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="QSort.h">
+    <ClInclude Include="Tester.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,27 +44,24 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="MPI_QuickSort.cpp">
+    <ClCompile Include="OmpDekstra.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="Tester.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="SpecVector.cpp">
+    <ClCompile Include="omp_tester.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="ArgvResolver.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="QSort.cpp">
+    <ClCompile Include="Tester.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="qsort.bat">
+    <None Include="dekstra.bat">
       <Filter>Файлы исходного кода</Filter>
     </None>
-    <None Include="qsort_report.php">
+    <None Include="dekstra_report.php">
       <Filter>Файлы исходного кода</Filter>
     </None>
   </ItemGroup>
