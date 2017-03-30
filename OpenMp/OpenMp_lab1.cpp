@@ -3,9 +3,10 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include "stdafx.h"
-
 using namespace std;
 class OpenMPClass {
+	const string SAVE_PATH = "C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\x64\\Release\\";
+
 	const string OUTPUT_FILE = "output.txt";
 	const size_t CHUNK_COUNT = 10;
 	struct inputMatrix {
@@ -127,7 +128,7 @@ private:
 		return dimensions(c, (c / CHUNK_COUNT) + 1);
 	}
 
-	size_t timeCalcFunction(
+	size_t timeCalcFunction(string savepath,
 		void(*multiplier)(const shared_ptr<matrix>,
 		const shared_ptr<matrix>,
 		const shared_ptr<matrix>,
@@ -159,13 +160,15 @@ private:
 		time %= 1000;
 		const auto nanoseconds = time;
 
-		/*(*sResult) << "time taken for matrices "
+		cout << "time taken for matrices "
 			<< "a[" << m << "][" << c << "] "
 			<< "b[" << c << "][" << n << "] : "
+			<< "chunk_size:" << chunk_size << " :"
 			<< seconds << "s "
 			<< milliseconds << "ms "
 			<< microseconds << "mcs "
-			<< nanoseconds << "ns" << endl;*/
+			<< nanoseconds << "ns" << endl;
+		printMatrix(savepath, result);
 
 		return nanoSecondsTotal;
 	}
@@ -234,17 +237,28 @@ private:
 		const size_t n,
 		const size_t c,
 		const size_t chunk_size) {
-#pragma omp parallel
+		#pragma omp parallel
 		{
-#pragma omp for ordered schedule(guided,chunk_size)
+			auto private_result = make_shared<matrix>(m, m_vector(n));
+			#pragma omp for ordered schedule(guided,chunk_size)
 			for (auto r = 0; r < m * n * c; ++r) {
 				const auto i = r / n / c;
 				const auto j = r / c % n;
 				const auto k = r % c;
-				(*result)[i][j] += (*a)[i][k] * (*b)[k][j];
-			}
+				(*private_result)[i][j] += (*a)[i][k] * (*b)[k][j];
+			};
+
+			#pragma omp critical 
+			{
+				for (auto r = 0; r < m * n; ++r) {
+					const auto i = r / n;
+					const auto j = r  % n;
+					(*result)[i][j] += (*private_result)[i][j];
+				};
+			};
 		}
-	}
+	};
+	
 	void printMatrix(const string &file_path, const shared_ptr<matrix> &result) {
 		ofstream out_file(file_path, ofstream::trunc);
 		out_file.exceptions(ifstream::badbit | ifstream::failbit);
@@ -281,13 +295,13 @@ public:
 		vector<csvResult> resultCsv;
 		for (size_t chunks = 1; chunks < size; chunks += step){
 
-			result = timeCalcFunction(OpenMPClass::multiplierNoMP, (*matrix1).matrix, (*matrix2).matrix, chunks, &sResult);
+			result = timeCalcFunction(SAVE_PATH + "NoMP.txt", OpenMPClass::multiplierNoMP, (*matrix1).matrix, (*matrix2).matrix, chunks, &sResult);
 			dimensions noOpenMP = dimensions(chunks, result);
-			result = timeCalcFunction(OpenMPClass::multiplierStaticMP, (*matrix1).matrix, (*matrix2).matrix, chunks, &sResult);
+			result = timeCalcFunction(SAVE_PATH + "StaticMP.txt", OpenMPClass::multiplierStaticMP, (*matrix1).matrix, (*matrix2).matrix, chunks, &sResult);
 			dimensions staticMP = dimensions(chunks, result);
-			result = timeCalcFunction(OpenMPClass::multiplierDynamicMP, (*matrix1).matrix, (*matrix2).matrix, chunks, &sResult);
+			result = timeCalcFunction(SAVE_PATH + "dynMP.txt", OpenMPClass::multiplierDynamicMP, (*matrix1).matrix, (*matrix2).matrix, chunks, &sResult);
 			dimensions dynamicMP = dimensions(chunks, result);
-			result = timeCalcFunction(OpenMPClass::multiplierGuidedMP, (*matrix1).matrix, (*matrix2).matrix, chunks, &sResult);
+			result = timeCalcFunction(SAVE_PATH + "guidedMP.txt", OpenMPClass::multiplierGuidedMP, (*matrix1).matrix, (*matrix2).matrix, chunks, &sResult);
 			dimensions guidedMP = dimensions(chunks, result);
 			resultCsv.push_back(csvResult(noOpenMP, staticMP, dynamicMP, guidedMP));
 		}
@@ -298,12 +312,14 @@ public:
 };
 int main(int argc, char * argv[])
 {
-	vector<inputParam> strvector;	
+	const string SAVE_PATH = "C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\x64\\Release\\";
+
+	vector<inputParam> strvector;
 	/*strvector.push_back(inputParam("C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\Release\\matrix1.txt", "C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\Release\\matrix2.txt", "-gen", "100", "100"));
 	strvector.push_back(inputParam("C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\Release\\matrix1.txt", "C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\Release\\matrix2.txt", "-gen", "2", "200"));
 	strvector.push_back(inputParam("C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\Release\\matrix1.txt", "C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\OpenMp\\Release\\matrix2.txt", "-gen", "200", "51"));*/
-	strvector.push_back(inputParam("C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\x64\\Release\\matrixED1.txt", "C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\x64\\Release\\matrixED2.txt","-nogen", "10", "10"));
-	csvfile csv("C:\\Users\\aleksandr\\Documents\\Visual Studio 2013\\Projects\\Multithreading\\x64\\Release\\labResult.csv");
+	strvector.push_back(inputParam(_strdup((SAVE_PATH + "matrixED1.txt").c_str()), _strdup((SAVE_PATH + "matrixED2.txt").c_str()), "-nogen", "10", "10"));
+	csvfile csv(_strdup((SAVE_PATH + "labResult.csv").c_str()));
 
 	for each (auto cArgv in strvector)
 	{
@@ -322,9 +338,9 @@ int main(int argc, char * argv[])
 				<< get<1>(get<2>(csvR))
 				<< get<1>(get<3>(csvR))
 				<< endrow;
-			
+
 		}
-		std::cout << "Size:" << get<3>(cArgv) << "x" << get<4>(cArgv) << '\n' ;
+		std::cout << "Size:" << get<3>(cArgv) << "x" << get<4>(cArgv) << '\n';
 		delete(op);
 		csv << endrow;
 	}

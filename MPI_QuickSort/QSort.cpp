@@ -316,10 +316,9 @@ void QSort::gatherSamples()
 
 void QSort::mergeSamples()
 {
-	log("Multimerge samples");
-
 	if (isRoot())
 	{
+		log("Multimerge samples");
 		std::vector<std::vector<type_t>> samples(this->total_processes);
 
 		for (auto i = 0; i < this->total_processes; ++i)

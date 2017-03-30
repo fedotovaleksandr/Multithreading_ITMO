@@ -18,11 +18,12 @@
 #include "csvfile.h"
 #include <windows.h>
 typedef std::tuple<size_t, size_t> dimensions;
-typedef std::tuple<char*, char*, char*, char*, char*> inputParam;
+typedef std::tuple<char *, char*, char*, char*, char*> inputParam;
 typedef std::tuple<dimensions, dimensions, dimensions, dimensions> csvResult;
 typedef std::vector<int64_t> m_vector;
 typedef std::vector<m_vector> matrix;
 typedef std::chrono::high_resolution_clock m_clock;
+
 
 
 // TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы

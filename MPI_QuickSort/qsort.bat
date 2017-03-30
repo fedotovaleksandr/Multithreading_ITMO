@@ -1,7 +1,7 @@
 @ECHO OFF
 IF [%1]==[all] GOTO ALL
 IF [%1]==[report] GOTO REPORT
-mpiexec -n 1 MPI_QuickSort.exe -v 1 -proc 4 -size 10000 -gen 1
+mpiexec -n 4 MPI_QuickSort.exe -v 1 -proc 4 -size 10000 -gen 0 -in qsort_test.txt -out qsort_test_result.txt
 GOTO DONE
 
 :ALL
