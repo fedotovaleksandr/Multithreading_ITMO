@@ -139,7 +139,8 @@
       <AdditionalDependencies>C:\Users\aleksandr\Documents\Visual Studio 2013\Projects\nativempjdev\packages\MSMPIsdk.8.0.12438\Lib\x64\msmpi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)local.bat" "$(SolutionDir)$(Platform)\$(Configuration)\local.bat" &amp;&amp; copy "$(ProjectDir)report.php" "$(SolutionDir)$(Platform)\$(Configuration)\report.php" </Command>
+      <Command>
+      </Command>
       <Message>copy bat</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
